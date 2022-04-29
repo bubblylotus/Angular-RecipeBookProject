@@ -17,18 +17,19 @@ export class DataStorageService{
             }
         );
     }
+//if recipe has no ingredients, make sure it at least is an 
 
-    fetchRecipes(){
-        return this.http.get<Recipe[]>('https://recipebookproject-20af9-default-rtdb.firebaseio.com/recipes.json')
-        .pipe(map(recipes => {
-            return recipes.map(recipe => {
-                return {...recipe, ingredients: recipe.ingredients? recipe.ingredients: []}
-            });
-        }), 
-        tap(recipes => {
-            this.recipeService.setRecipes(recipes);
-        })
-        )
-        ;
-    }
+fetchRecipes() {
+    return this.http.get<Recipe[]>('https://recipebookproject-20af9-default-rtdb.firebaseio.com/recipes.json')
+        .pipe(
+            map(recipes => {
+                return recipes.map(recipe => {return {...recipe, ingredients: recipe.ingredients ? recipe.ingredients : []}})
+            }), 
+            tap(
+                recipes => {
+                    this.recipeService.setRecipes(recipes);
+                }
+            )
+        ) 
+  }
 }
